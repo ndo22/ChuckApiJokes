@@ -10,7 +10,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class Tab1Page {
 
-  myoutput:String = '';
+  myoutput:String = 'Joke will apperar after click on button';
   loadingDialog: any;
 
 constructor(private chuckService: ChuckjokesService, public loadingController: LoadingController) 
@@ -20,18 +20,30 @@ constructor(private chuckService: ChuckjokesService, public loadingController: L
 
 public btnClicked():void
 {
+  this.presentLoading();
   this.chuckService.getRandom().subscribe( (data) => 
     {
-      this.myoutput=data['value']['joke'];
+      var text = data['value']['joke'];
+      text.toString();
+      if(text.includes('&quot;'))
+      {
+        this.myoutput = text.replaceAll('&quot;', '\"');
+      }
+      else
+      {
+        this.myoutput = text;
+      }
+      this.loadingDialog.dismiss();
     });
   }
 
+
 async presentLoading() 
 {
-this.loadingDialog = await this.loadingController.create(
-{
-message: 'Thinking ...', 
-});
+  this.loadingDialog = await this.loadingController.create(
+  {
+    message: 'Thinking ...', 
+  });
 await this.loadingDialog.present();
 }
 
