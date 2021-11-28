@@ -14,4 +14,9 @@ export class ChuckjokesService {
     return this.http.get('http://api.icndb.com/jokes/random');
   }
 
+  public getPersonal(name, surname) 
+  {
+    return this.http.get('http://api.icndb.com/jokes/random?firstName='+name+'&lastName='+surname);
+  }
+
 }

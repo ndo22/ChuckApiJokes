@@ -1,11 +1,28 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab DVA
+      Personal Jokes
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  TAB TWO
+
+  <ion-item>
+    <ion-label position="floating">FirstName</ion-label>
+    <ion-input [(ngModel)]="myname"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">LastName</ion-label>
+    <ion-input [(ngModel)]="mylastname"></ion-input>
+  </ion-item>
+
+  <ion-card class="welcome-card">
+    <ion-card-content>
+      {{ myoutput }}
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+<ion-button (click)="btnClicked()" expand="block">Generate Joke</ion-button>
