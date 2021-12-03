@@ -10,7 +10,7 @@ import { Storage } from '@capacitor/storage';
 })
 export class Tab3Page {
 
-  favourites: [id: string, joke: string] = ["O","You dont have any favourite joke right now"];
+  favourites: { id: string, joke: string }[] = [{ "id": "0", "joke": "Available" }];
   keys: string[];
 
   constructor() {
@@ -20,12 +20,19 @@ export class Tab3Page {
   async loadFav() {
     checkName(this.keys, this.favourites);
   }
-  async removeFav(item: string){
-    removeName(item)
+  async removeFav(item: { id: string, joke: string }) {
+    alert(item.id)
+
+    const index = this.favourites.indexOf(item, 0);
+    if (index > -1) {
+      this.favourites.splice(index, 1);
+    }
+
+    removeName(item.id)
   }
 }
 
-const checkName = async (keys: string[], favourites: string[]) => {
+const checkName = async (keys: string[], favourites: { id: string, joke: string }[]) => {
   await Storage.keys().then(result => {
     keys = result.keys;
 
@@ -33,7 +40,7 @@ const checkName = async (keys: string[], favourites: string[]) => {
 
   for (let index = 0; index < keys.length; index++) {
     const { value } = await Storage.get({ key: keys[index] });
-    favourites[index] = value;
+    favourites[index] = { "id": keys[index].toString(), "joke": value };
   }
 };
 

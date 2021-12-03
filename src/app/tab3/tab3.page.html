@@ -12,9 +12,9 @@
   <div *ngFor="let item of favourites">
     <ion-card class="welcome-card">
       <ion-card-content>
-        {{ item }}
+        {{ item.joke }}
       </ion-card-content>
-      <ion-button (click)="loadFav()" expand="block">Refresh</ion-button>
+      <ion-button (click)="removeFav(item)" expand="block"><ion-icon name="trash"></ion-icon></ion-button>
     </ion-card>
   </div>
 </ion-content>
