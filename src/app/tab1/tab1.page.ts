@@ -23,12 +23,7 @@ export class Tab1Page {
 
     if (this.myid != "" || this.myoutput != 'Joke will apperar after click on button') {
       try {
-        alert(this.myid);
-        alert(this.myoutput);
-        await Storage.set({
-          key: this.myid,
-          value: this.myoutput
-        });
+        await setFav(this.myid, this.myoutput);
         alert(`Added To Favourites`);
       } catch (reason) {
         alert(reason);
@@ -60,7 +55,12 @@ export class Tab1Page {
       });
     await this.loadingDialog.present();
   }
-
-
 }
 
+const setFav = async (id: string, favourite: string) => {
+
+  await Storage.set({
+    key: id.toString(),
+    value: favourite,
+  });
+};
