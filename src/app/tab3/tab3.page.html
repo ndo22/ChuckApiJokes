@@ -8,14 +8,15 @@
 
 
 
-<ion-content [fullscreen]="true"> 
-    <div *ngFor="let item of favourites">
+<ion-content [fullscreen]="true">
+  <div *ngFor="let item of favourites">
     <ion-card class="welcome-card">
       <ion-card-content>
         {{ item }}
       </ion-card-content>
+      <ion-button (click)="loadFav()" expand="block">Refresh</ion-button>
     </ion-card>
   </div>
-  </ion-content>
+</ion-content>
 
-<ion-button  (click)="loadFav()" expand="block">Refresh</ion-button>
+<ion-button (click)="loadFav()" expand="block">Refresh</ion-button>
