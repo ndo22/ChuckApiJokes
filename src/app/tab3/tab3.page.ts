@@ -10,11 +10,16 @@ import { Storage } from '@capacitor/storage';
 })
 export class Tab3Page {
 
-  favourites: { id: string, joke: string }[] = [{ "id": "0", "joke": "Available" }];
+  favourites: { id: string, joke: string }[] = [{ "id": "0", "joke": "There are not any favourite jokes at the time" }];
   keys: string[];
 
   constructor() {
+    this.loadFav()
+  }
 
+  async doRefresh(event) {
+    await this.loadFav();
+    event.target.complete();
   }
 
   async loadFav() {
@@ -29,6 +34,10 @@ export class Tab3Page {
     }
 
     removeName(item.id)
+
+    if (this.favourites.length == 0) {
+      this.favourites[0] = { "id": "0", "joke": "There are not any favourite jokes at the time" };
+    }
   }
 }
 
