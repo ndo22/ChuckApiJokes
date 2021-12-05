@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 
-
-
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -25,9 +23,8 @@ export class Tab3Page {
   async loadFav() {
     checkName(this.keys, this.favourites);
   }
-  async removeFav(item: { id: string, joke: string }) {
-    alert(item.id)
 
+  async removeFav(item: { id: string, joke: string }) {
     const index = this.favourites.indexOf(item, 0);
     if (index > -1) {
       this.favourites.splice(index, 1);

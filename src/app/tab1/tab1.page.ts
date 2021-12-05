@@ -19,8 +19,12 @@ export class Tab1Page {
 
   }
 
-  public async btnFavClicked(): Promise<void> {
+  async doRefresh(event) {
+    await this.btnClicked();
+    event.target.complete();
+  }
 
+  public async btnFavClicked(): Promise<void> {
     if (this.myid != "" || this.myoutput != 'Joke will apperar after click on button') {
       try {
         await setFav(this.myid, this.myoutput);

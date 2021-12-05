@@ -7,11 +7,20 @@
 </ion-header>
 
 <ion-content [fullscreen]="true"> 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  </ion-refresher>
+  
   <ion-card class="welcome-card">
     <ion-card-content>
-      {{ myoutput }}
+      <ion-row class="ion-align-items-center">
+        <ion-col size="10">
+          {{ myoutput }}
+        </ion-col>
+        <ion-col size="2">
+          <ion-button  (click)="btnFavClicked()" fill="clear"><ion-icon name="heart-outline" slot="icon-only"></ion-icon></ion-button>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
-    <ion-button  (click)="btnFavClicked()" expand="block"><ion-icon name="heart-outline"></ion-icon></ion-button>
   </ion-card>
 </ion-content>
 
