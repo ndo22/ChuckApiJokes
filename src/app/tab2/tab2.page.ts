@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { ChuckjokesService } from '../api/chuckjokes.service';
+import { Clipboard } from '@capacitor/clipboard';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -14,9 +16,7 @@ export class Tab2Page {
   mylastname: String = '';
   loadingDialog: any;
 
-  constructor(private chuckService: ChuckjokesService, public loadingController: LoadingController) {
-
-  }
+  constructor(private chuckService: ChuckjokesService, public loadingController: LoadingController, public toastController: ToastController) {}
 
   public btnClicked(): void {
     this.presentLoading();
@@ -42,6 +42,26 @@ export class Tab2Page {
     await this.loadingDialog.present();
   }
 
+
+  async copyToClipboard(favourite: string){
+    await writeToClipboard(favourite);
+    this.toasting();
+  }
+
+  async toasting() {
+    const toast = await this.toastController.create({
+      color: 'dark',
+      duration: 2000,
+      message: 'Copied to Clipboard'
+    });
+    
+    await toast.present();
+  }
+
 }
 
-
+const writeToClipboard = async (favourite: string) => {
+  await Clipboard.write({
+    string: favourite
+  });
+};

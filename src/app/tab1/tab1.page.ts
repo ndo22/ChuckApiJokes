@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ChuckjokesService } from '../api/chuckjokes.service';
 import { LoadingController } from '@ionic/angular';
 import { Storage } from '@capacitor/storage';
-
+import { Clipboard } from '@capacitor/clipboard';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -15,13 +16,15 @@ export class Tab1Page {
   myid: string = "";
   loadingDialog: any;
 
-  constructor(private chuckService: ChuckjokesService, public loadingController: LoadingController) {
+  constructor(private chuckService: ChuckjokesService, public loadingController: LoadingController, public toastController: ToastController) {
 
   }
 
   async doRefresh(event) {
     await this.btnClicked();
-    event.target.complete();
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
   }
 
   public async btnFavClicked(): Promise<void> {
@@ -29,6 +32,7 @@ export class Tab1Page {
       try {
         await setFav(this.myid, this.myoutput);
         alert(`Added To Favourites`);
+        this.btnClicked();
       } catch (reason) {
         alert(reason);
         console.log(reason);
@@ -59,6 +63,22 @@ export class Tab1Page {
       });
     await this.loadingDialog.present();
   }
+
+  async copyToClipboard(favourite: string){
+    await writeToClipboard(favourite);
+    this.toasting();
+  }
+
+  async toasting() {
+    const toast = await this.toastController.create({
+      color: 'dark',
+      duration: 2000,
+      message: 'Copied to Clipboard'
+    });
+
+    await toast.present();
+  }
+
 }
 
 const setFav = async (id: string, favourite: string) => {
@@ -66,5 +86,11 @@ const setFav = async (id: string, favourite: string) => {
   await Storage.set({
     key: id.toString(),
     value: favourite,
+  });
+};
+
+const writeToClipboard = async (favourite: string) => {
+  await Clipboard.write({
+    string: favourite
   });
 };

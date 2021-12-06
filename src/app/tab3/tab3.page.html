@@ -6,26 +6,26 @@
   </ion-toolbar>
 </ion-header>
 
-
-
 <ion-content [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
-  <div *ngFor="let item of favourites">
-    <ion-card class="welcome-card">
-      <ion-card-content>
-        <ion-row class="ion-align-items-center">
-          <ion-col size="10">
-            {{ item.joke }}
-          </ion-col>
-          <ion-col size="2">
-            <ion-button (click)="removeFav(item)" fill="clear" ><ion-icon name="trash"  slot="icon-only"></ion-icon></ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
-    </ion-card>
-  </div>
-</ion-content>
 
-<ion-button (click)="loadFav()" expand="block">Refresh</ion-button>
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of favourites">
+
+        <ion-item>
+          <ion-card class="welcome-card" (click)="copyToClipboard(item)">
+            <ion-card-content>
+                  {{ item.joke }}
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="removeFav(item)"><ion-icon name="trash" slot="icon-only"></ion-icon></ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+  </ion-list>
+
+</ion-content>
