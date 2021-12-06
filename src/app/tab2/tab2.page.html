@@ -18,11 +18,13 @@
     <ion-input [(ngModel)]="mylastname"></ion-input>
   </ion-item>
 
-  <ion-card class="welcome-card">
+  <ion-card class="welcome-card" (click)="copyToClipboard(myoutput)">
     <ion-card-content>
       {{ myoutput }}
     </ion-card-content>
   </ion-card>
 </ion-content>
-
-<ion-button (click)="btnClicked()" expand="block">Generate Joke</ion-button>
+  
+  <section>
+    <ion-button  (click)="btnClicked()" expand="block">Generate Joke</ion-button>
+  </section>
