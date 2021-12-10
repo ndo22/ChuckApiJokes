@@ -33,7 +33,6 @@ export class Tab2Page {
     });
   }
 
-
   async presentLoading() {
     this.loadingDialog = await this.loadingController.create(
       {
@@ -57,7 +56,6 @@ export class Tab2Page {
     
     await toast.present();
   }
-
 }
 
 const writeToClipboard = async (favourite: string) => {
