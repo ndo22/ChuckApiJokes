@@ -1,30 +1,36 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Personal Jokes
-    </ion-title>
+    <ion-title>App</ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content class="ion-padding">
+  <ion-button id="open-modal" expand="block">Open Modal</ion-button>
 
-<ion-content [fullscreen]="true">
-
-  <ion-item>
-    <ion-label position="floating">FirstName</ion-label>
-    <ion-input [(ngModel)]="myname"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="floating">LastName</ion-label>
-    <ion-input [(ngModel)]="mylastname"></ion-input>
-  </ion-item>
-
-  <ion-card class="welcome-card" (click)="copyToClipboard(myoutput)">
-    <ion-card-content>
-      {{ myoutput }}
-    </ion-card-content>
-  </ion-card>
+  <ion-modal #modal trigger="open-modal">
+    <ng-template>
+      <ion-content>
+        <ion-toolbar>
+          <ion-title>New Food Item</ion-title>
+          <ion-buttons slot="end">
+            <ion-button color="light" (click)="modal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+        <ion-list>
+          <ion-item>
+              <ion-label position="fixed">Name</ion-label>
+              <ion-input [clearInput]="true" label="Name" labelPlacement="stacked" placeholder="Enter company name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="fixed">Weight</ion-label>
+            <ion-input [clearInput]="true" placeholder="Weight"></ion-input>
+          </ion-item>
+        
+          <ion-item>
+            <ion-label position="fixed">Price</ion-label>
+            <ion-input [clearInput]="true" placeholder="Price"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
-  
-  <section class="ion-padding">
-    <ion-button  (click)="btnClicked()" expand="block">Generate Joke</ion-button>
-  </section>

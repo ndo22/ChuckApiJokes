@@ -12,7 +12,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class Tab1Page {
 
-  myoutput: string = 'Joke will apperar after click on button';
+  myoutput: string = 'No ingredients yet';
   myid: string = "";
   loadingDialog: any;
 
@@ -28,7 +28,7 @@ export class Tab1Page {
   }
 
   public async btnFavClicked(): Promise<void> {
-    if (this.myid != "" || this.myoutput != 'Joke will apperar after click on button') {
+    if (this.myid != "" || this.myoutput != 'No ingredients yet') {
       try {
         await setFav(this.myid, this.myoutput);
         alert(`Added To Favourites`);

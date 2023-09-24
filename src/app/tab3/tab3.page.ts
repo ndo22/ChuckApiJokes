@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 import { Clipboard } from '@capacitor/clipboard';
 import { ToastController } from '@ionic/angular';
+import { FoodItem } from '../models/FoodItem';
+
 
 @Component({
   selector: 'app-tab3',
@@ -10,7 +12,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class Tab3Page {
 
-  favourites: { id: string, joke: string }[] = [{ "id": "0", "joke": "There are not any favourite jokes at the time" }];
+  favourites: { id: string, joke: FoodItem }[] = [{ "id": "0", "joke": new FoodItem("Brambora", 5, 10) }];
   keys: string[];
 
   constructor(public toastController: ToastController) {
@@ -28,7 +30,7 @@ export class Tab3Page {
     checkName(this.keys, this.favourites);
   }
 
-  async removeFav(item: { id: string, joke: string }) {
+  async removeFav(item: { id: string, joke: FoodItem }) {
     const index = this.favourites.indexOf(item, 0);
     if (index > -1) {
       this.favourites.splice(index, 1);
@@ -37,7 +39,7 @@ export class Tab3Page {
     removeName(item.id)
 
     if (this.favourites.length == 0) {
-      this.favourites[0] = { "id": "0", "joke": "There are not any favourite jokes at the time" };
+      this.favourites[0] = { "id": "0", "joke": new FoodItem("Brambora", 5, 10) };
     }
   }
 
@@ -56,9 +58,27 @@ export class Tab3Page {
     await toast.present();
   }
 
+
+  async addFoodItem(item : FoodItem) {
+    await Storage.set({
+      key: item.name,
+      value: JSON.stringify({
+        name: item.name,
+        priceForWhole: item.priceForWhole,
+        amount : item.weight
+      })
+    });
+  }
+  
+  async getFoodItem(name : string) {
+    const ret = await Storage.get({ key: name });
+    const item = JSON.parse(ret.value); 
+  }
+
+
 }
 
-const checkName = async (keys: string[], favourites: { id: string, joke: string }[]) => {
+const checkName = async (keys: string[], favourites: { id: string, joke: FoodItem }[]) => {
   await Storage.keys().then(result => {
     keys = result.keys;
 
@@ -66,7 +86,7 @@ const checkName = async (keys: string[], favourites: { id: string, joke: string 
 
   for (let index = 0; index < keys.length; index++) {
     const { value } = await Storage.get({ key: keys[index] });
-    favourites[index] = { "id": keys[index].toString(), "joke": value };
+    favourites[index] = { "id": keys[index].toString(), "joke": new FoodItem("Brambora", 5, 10) };
   }
 };
 
@@ -79,3 +99,4 @@ const writeToClipboard = async (favourite: string) => {
     string: favourite
   });
 };
+

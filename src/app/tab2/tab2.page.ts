@@ -1,65 +1,29 @@
-import { Component } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
-import { ChuckjokesService } from '../api/chuckjokes.service';
-import { Clipboard } from '@capacitor/clipboard';
-import { ToastController } from '@ionic/angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core/components';
 
 @Component({
-  selector: 'app-tab2',
+  selector: 'app-example',
   templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  @ViewChild(IonModal) modal: IonModal;
 
-  myoutput: String = 'Joke will apperar after click on button';
-  myname: String = '';
-  mylastname: String = '';
-  loadingDialog: any;
+  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
+  name: string;
 
-  constructor(private chuckService: ChuckjokesService, public loadingController: LoadingController, public toastController: ToastController) {}
-
-  public btnClicked(): void {
-    this.presentLoading();
-    this.chuckService.getPersonal(this.myname, this.mylastname).subscribe((data) => {
-      var text = data['value']['joke'];
-      text.toString();
-      if (text.includes('&quot;')) {
-        this.myoutput = text.replaceAll('&quot;', '\"');
-      }
-      else {
-        this.myoutput = text;
-      }
-      this.loadingDialog.dismiss();
-    });
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
   }
 
-  async presentLoading() {
-    this.loadingDialog = await this.loadingController.create(
-      {
-        message: 'Thinking ...',
-      });
-    await this.loadingDialog.present();
+  confirm() {
+    this.modal.dismiss(this.name, 'confirm');
   }
 
-
-  async copyToClipboard(favourite: string){
-    await writeToClipboard(favourite);
-    this.toasting();
-  }
-
-  async toasting() {
-    const toast = await this.toastController.create({
-      color: 'dark',
-      duration: 2000,
-      message: 'Copied to Clipboard'
-    });
-    
-    await toast.present();
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
+      this.message = `Hello, ${ev.detail.data}!`;
+    }
   }
 }
-
-const writeToClipboard = async (favourite: string) => {
-  await Clipboard.write({
-    string: favourite
-  });
-};
